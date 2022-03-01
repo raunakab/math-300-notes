@@ -1,0 +1,45 @@
+\begin{definition}[Laplace's Operator and Equation]
+    \answer{
+        Let $\phi:\Cont^2(\R^n\rightarrow\R)$ be a real-valued function in which at least all of its second partial derivatives exist.
+        $\phi$ is said to solve Laplace's equation iff:
+        \begin{align}
+            \Delta(\phi)=0
+        \end{align}
+        where $\Delta$, the Laplace operator, is defined as:
+        \begin{align}
+            \Delta=\bigg(\phi\mapsto\sum_{j=2}^{n}f_{x_jx_j}\bigg)
+        \end{align}
+    }
+\end{definition}
+\begin{definition}[Harmonic Functions]
+    \answer{
+        A real-valued function, $f:\Cont(X\rightarrow Y)$ (i.e., an at least twice differentiable function), is considered harmonic on some domain $D$ iff:
+        \begin{align}
+            \Delta(f)=\sum_{j=2}^{n}f_{x_jx_j}=0
+        \end{align}
+        for every point in $D$.
+    }
+\end{definition}
+\begin{theorem}[Analyticity and Harmonicity]
+    \answer{
+        Let $f:\C\rightarrow\C$ be some complex-valued function, where:
+        \begin{align}
+            f:=u+iv
+        \end{align}
+        Thus:
+        \begin{align}
+            \text{$f$ is analytic on $D$}\implies\text{$u,v$ are harmonic on $D$}
+        \end{align}
+        where $D$ is some complex domain.
+    }
+\end{theorem}
+\begin{theorem}[Existence of a Harmonic Conjugate]
+    \answer{
+        Consider some function, $u:\Cont^2(\R^2\rightarrow\R)$.
+        Thus:
+        \begin{align}
+            \text{$u$ is harmonic on $D$}\implies\bigg(\big(\exists v:\Cont^2(\R^2\rightarrow\R), \text{$v$ is harmonic on $D$}\big)\land\big(\text{$f:=u+iv$ is analytic on $D$}\big)\bigg)
+        \end{align}
+        Here, $v$ is considered the harmonic conjugate of $u$.
+    }
+\end{theorem}
