@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const fsExtra = require('fs-extra');
-const { spawnSync } = require('child_process');
+const { exec, spawnSync } = require('child_process');
 const { program, Command } = require('commander');
 
 const git_hooks_dir = './.git/hooks';
@@ -45,6 +45,29 @@ const constants = {
             )
         },
     },
+    watch: {
+        action: () => {
+            const locationsToWatch = [
+                'main.tex',
+                'meta',
+                'sections',
+            ];
+
+            const info = `Watching changes to the following locations: ${locationsToWatch.reduce((acc, curr) => acc + `- ${curr},\n`, '\n')}`;
+            const command = `find ${locationsToWatch.reduce((acc, curr) => `${acc} ${curr}`)} | entr pdflatex main.tex`;
+
+            console.log(info);
+
+            exec(
+                command,
+                (error, stdout, stderr) => {
+                    if (error) console.log(error);
+                    else if (stderr) console.log(stderr);
+                    else console.log(stdout);
+                },
+            );
+        },
+    },
 };
 
 program
@@ -55,6 +78,10 @@ program
     .addCommand(
         new Command('build').description('build LaTeX project; uses `main.tex` as the entry-point (fails if not found)')
             .action(constants.build.action)
+    )
+    .addCommand(
+        new Command('watch').description('watch LaTeX project and run build automatically when changes detected; uses `main.tex` as the entry-point (fails if not found)')
+            .action(constants.watch.action)
     );
 
 program.parse(process.argv);

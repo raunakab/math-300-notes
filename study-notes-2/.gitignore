@@ -2,6 +2,7 @@
 main.log
 main.aux
 texput.log
+main.pdf
 
 # node artefacts
 node_modules
