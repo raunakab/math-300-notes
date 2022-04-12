@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+const fsExtra = require('fs-extra');
+const { spawnSync } = require('child_process');
+const { program, Command } = require('commander');
+
+const git_hooks_dir = './.git/hooks';
+const hooksDir = `./.hooks`;
+const hooks_dir_from_git_hooks_dir = `../../.hooks`;
+
+const hooks = [
+    'pre-commit'
+];
+
+const shellOptions = { shell: true, stdio: 'inherit' };
+
+const constants = {
+    init: {
+        action: () => {
+            fsExtra.emptyDirSync(git_hooks_dir);
+
+            hooks.forEach(hook => {
+                spawnSync(
+                    'ln', [
+                    `-s ${hooks_dir_from_git_hooks_dir}/${hook}.js ${git_hooks_dir}/${hook}`
+                ], shellOptions);
+
+                spawnSync('chmod', [
+                    `+x ${git_hooks_dir}/${hook}`,
+                ], shellOptions);
+
+                spawnSync('chmod', [
+                    `+x ${hooksDir}/${hook}.js`,
+                ], shellOptions);
+            });
+        },
+    },
+    build: {
+        action: () => {
+            spawnSync(
+                'pdflatex',
+                [
+                    'main.tex',
+                ],
+                shellOptions
+            )
+        },
+    },
+};
+
+program
+    .addCommand(
+        new Command('init').description('install helpful git hooks')
+            .action(constants.init.action)
+    )
+    .addCommand(
+        new Command('build').description('build LaTeX project; uses `main.tex` as the entry-point (fails if not found)')
+            .action(constants.build.action)
+    );
+
+program.parse(process.argv);

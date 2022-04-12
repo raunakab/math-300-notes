@@ -1,0 +1,75 @@
+\def\ans#1{\par\gre{$\longrightarrow$ #1}}
+\def\answer#1{\ans{#1}}
+\def\rubric#1{\gre{Rubric: \{#1\}}}{}
+
+% Colors
+\definecolor{blu}{rgb}{0,0,1}
+\def\blu#1{{\color{blu}#1}}
+\definecolor{gre}{rgb}{0,.5,0}
+\def\gre#1{{\color{gre}#1}}
+\definecolor{red}{rgb}{1,0,0}
+\def\red#1{{\color{red}#1}}
+\def\norm#1{\|#1\|}
+
+% Math
+\def\Let{\text{Let }}
+\def\notimply{\centernot\implies}
+\def\notimpliedby{\centernot\impliedby}
+\def\B{\mathbb{B}}
+\def\R{\mathbb{R}}
+\def\I{\mathbb{I}}
+\def\C{\mathbb{C}}
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\columns{\text{columns}}
+\def\nul{\text{null}}
+\def\spann{\text{span}}
+\def\dom{\text{dom}}
+\def\transpose{\text{tr}}
+\def\dim{\text{dim}}
+\def\Self{\text{Self}}
+\def\Set{\text{Set}}
+\def\argmax{\mathop{\rm arg\,max}}
+\def\argmin{\mathop{\rm arg\,min}}
+\newcommand{\mat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\alignStar}[1]{\begin{align*}#1\end{align*}}
+\def\half{\frac 1 2}
+
+% relations
+\DeclareMathOperator\Rel{\mathcal{R}}
+
+% lin.alg.
+\DeclareMathOperator\Range{Range}
+\DeclareMathOperator\Null{Null}
+\DeclareMathOperator\rank{rank}
+
+% complex numbers
+\def\Arg{\text{Arg}}
+\def\Re{\text{Re}}
+\def\conj{\text{conj}}
+\def\neighbourhood{\mathcal{N}}
+\DeclareMathOperator\Log{Log}
+\DeclareMathOperator\any{any}
+\DeclareMathOperator\Cont{\mathcal{C}}
+
+% language-design
+\DeclareMathOperator{\mmap}{\ \triangleright\ }
+\DeclareMathOperator\Ok{Ok}
+\DeclareMathOperator\Err{Err}
+\DeclareMathOperator\Maybe{Maybe}
+\DeclareMathOperator\Result{Result}
+\DeclareMathOperator\String{String}
+
+% LaTeX
+\newcommand{\fig}[2]{\includegraphics[width=#1\textwidth]{#2}}
+\newcommand{\centerfig}[2]{\begin{center}\includegraphics[width=#1\textwidth]{#2}\end{center}}
+\def\items#1{\begin{itemize}#1\end{itemize}}
+\def\enum#1{\begin{enumerate}#1\end{enumerate}}
+\theoremstyle{definition}
+\newtheorem{pb}{Problem}
+
+% misc
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\newcommand{\set}[1]{\left\{ #1 \right\}}

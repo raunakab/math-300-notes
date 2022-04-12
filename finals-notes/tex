@@ -1,0 +1,87 @@
+#!/usr/bin/env node
+const fsExtra = require('fs-extra');
+const { exec, spawnSync } = require('child_process');
+const { program, Command } = require('commander');
+
+const git_hooks_dir = './.git/hooks';
+const hooksDir = `./.hooks`;
+const hooks_dir_from_git_hooks_dir = `../../.hooks`;
+
+const hooks = [
+    'pre-commit'
+];
+
+const shellOptions = { shell: true, stdio: 'inherit' };
+
+const constants = {
+    init: {
+        action: () => {
+            fsExtra.emptyDirSync(git_hooks_dir);
+
+            hooks.forEach(hook => {
+                spawnSync(
+                    'ln', [
+                    `-s ${hooks_dir_from_git_hooks_dir}/${hook}.js ${git_hooks_dir}/${hook}`
+                ], shellOptions);
+
+                spawnSync('chmod', [
+                    `+x ${git_hooks_dir}/${hook}`,
+                ], shellOptions);
+
+                spawnSync('chmod', [
+                    `+x ${hooksDir}/${hook}.js`,
+                ], shellOptions);
+            });
+        },
+    },
+    build: {
+        action: () => {
+            spawnSync(
+                'pdflatex',
+                [
+                    'main.tex',
+                ],
+                shellOptions
+            )
+        },
+    },
+    watch: {
+        action: () => {
+            const locationsToWatch = [
+                'main.tex',
+                'meta',
+                'sections',
+            ];
+
+            const info = `Watching changes to the following locations: ${locationsToWatch.reduce((acc, curr) => acc + `- ${curr},\n`, '\n')}`;
+            const command = `find ${locationsToWatch.reduce((acc, curr) => `${acc} ${curr}`)} | entr pdflatex main.tex`;
+
+            console.log(info);
+
+            exec(
+                command,
+                (error, stdout, stderr) => {
+                    if (error) console.log(error);
+                    else if (stderr) console.log(stderr);
+                    else console.log(stdout);
+                },
+            );
+        },
+    },
+};
+
+program
+    .addCommand(
+        new Command('init').description('install helpful git hooks')
+            .action(constants.init.action)
+    )
+    .addCommand(
+        new Command('build').description('build LaTeX project; uses `main.tex` as the entry-point (fails if not found)')
+            .action(constants.build.action)
+    )
+    .addCommand(
+        new Command('watch').description('watch LaTeX project and run build automatically when changes detected; uses `main.tex` as the entry-point (fails if not found)')
+            .action(constants.watch.action)
+    );
+
+program.parse(process.argv);
